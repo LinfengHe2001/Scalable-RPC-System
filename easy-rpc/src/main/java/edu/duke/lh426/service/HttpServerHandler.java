@@ -1,6 +1,5 @@
 package edu.duke.lh426.service;
 
-
 import edu.duke.lh426.model.RpcRequest;
 import edu.duke.lh426.model.RpcResponse;
 import edu.duke.lh426.registry.LocalRegistry;
