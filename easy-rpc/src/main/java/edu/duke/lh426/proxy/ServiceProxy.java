@@ -43,7 +43,7 @@ public class ServiceProxy implements InvocationHandler {
     }
 }
 
-
+//version1
 //ServiceProxy类的主要作用是作为远程过程调用（RPC）的代理，将方法调用转换为HTTP请求并发送给远程服务端，然后将响应结果反序列化并返回给调用者。
 //invoke方法是InvocationHandler接口的核心方法，当代理对象的方法被调用时，会执行这个方法。
 //它接收三个参数：proxy表示代理对象本身，method表示被调用的方法，args表示方法的参数列表。
