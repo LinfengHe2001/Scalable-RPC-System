@@ -40,12 +40,12 @@
       <artifactId>hessian</artifactId>
       <version>4.0.66</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.esotericsoftware/kryo -->
-    <dependency>
-      <groupId>com.esotericsoftware</groupId>
-      <artifactId>kryo</artifactId>
-      <version>5.6.0</version>
-    </dependency>
+<!--    &lt;!&ndash; https://mvnrepository.com/artifact/com.esotericsoftware/kryo &ndash;&gt;-->
+<!--    <dependency>-->
+<!--      <groupId>com.esotericsoftware</groupId>-->
+<!--      <artifactId>kryo</artifactId>-->
+<!--      <version>5.6.0</version>-->
+<!--    </dependency>-->
     <!-- 注册中心 -->
     <!-- https://mvnrepository.com/artifact/io.etcd/jetcd-core -->
     <dependency>
@@ -90,7 +90,7 @@
       <artifactId>slf4j-api</artifactId>
       <version>1.7.32</version>
     </dependency>
-<!--    <dependency>-->
+    <!--    <dependency>-->
 <!--      <groupId>org.slf4j</groupId>-->
 <!--      <artifactId>slf4j-simple</artifactId>-->
 <!--      <version>1.7.32</version>-->

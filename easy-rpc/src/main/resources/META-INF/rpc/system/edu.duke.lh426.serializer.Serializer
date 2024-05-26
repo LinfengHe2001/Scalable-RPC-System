@@ -1,0 +1,3 @@
+jdk=edu.duke.lh426.serializer.JdkSerializer
+hessian=edu.duke.lh426.serializer.HessianSerializer
+json=edu.duke.lh426.serializer.JsonSerializer

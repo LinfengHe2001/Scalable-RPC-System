@@ -34,5 +34,6 @@ public class ConfigUtils {
         configFileBuilder.append(".properties");
         Props props = new Props(configFileBuilder.toString());
         return props.toBean(tClass, prefix);
+        //prefix参数在props.toBean(tClass, prefix)方法中用于指定配置项的前缀，以便根据这个前缀来匹配和加载相应的配置属性。
     }
 }
