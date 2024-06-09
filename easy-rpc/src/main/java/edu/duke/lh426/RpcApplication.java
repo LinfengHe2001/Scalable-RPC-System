@@ -1,8 +1,10 @@
 package edu.duke.lh426;
 
-
+import edu.duke.lh426.config.RegistryConfig;
 import edu.duke.lh426.config.RpcConfig;
 import edu.duke.lh426.constant.RpcConstant;
+import edu.duke.lh426.registry.Registry;
+import edu.duke.lh426.registry.RegistryFactory;
 import edu.duke.lh426.utils.ConfigUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +26,13 @@ public class RpcApplication {
     public static void init(RpcConfig newRpcConfig) {
         rpcConfig = newRpcConfig;
         log.info("rpc init, config = {}", newRpcConfig.toString());
+        // 注册中心初始化
+        RegistryConfig registryConfig = rpcConfig.getRegistryConfig();
+        Registry registry = RegistryFactory.getInstance(registryConfig.getRegistry());
+        registry.init(registryConfig);
+        log.info("registry init, config = {}", registryConfig);
+        // 创建并注册 Shutdown Hook，JVM 退出时执行操作
+        Runtime.getRuntime().addShutdownHook(new Thread(registry::destroy));
     }
 
     /**
