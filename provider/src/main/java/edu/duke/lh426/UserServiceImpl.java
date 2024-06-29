@@ -1,7 +1,8 @@
 package edu.duke.lh426;
 
-import edu.duke.lh426.model.User;
-import edu.duke.lh426.service.UserService;
+
+import edu.duke.lh426.common.User;
+import edu.duke.lh426.common.UserService;
 
 public class UserServiceImpl implements UserService {
 

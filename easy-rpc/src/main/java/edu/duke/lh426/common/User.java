@@ -1,4 +1,4 @@
-package edu.duke.lh426.model;
+package edu.duke.lh426.common;
 
 import java.io.Serializable;
 

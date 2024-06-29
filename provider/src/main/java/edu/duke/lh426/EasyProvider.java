@@ -1,8 +1,8 @@
 package edu.duke.lh426;
 
+import edu.duke.lh426.common.UserService;
 import edu.duke.lh426.registry.LocalRegistry;
 import edu.duke.lh426.service.HttpServer;
-import edu.duke.lh426.service.UserService;
 import edu.duke.lh426.service.VertxHttpServer;
 
 public class EasyProvider {

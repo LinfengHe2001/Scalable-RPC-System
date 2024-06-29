@@ -1,6 +1,4 @@
-package edu.duke.lh426.service;
-
-import edu.duke.lh426.model.User;
+package edu.duke.lh426.common;
 
 public interface UserService {
 

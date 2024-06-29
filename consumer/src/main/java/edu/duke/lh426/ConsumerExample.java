@@ -1,8 +1,10 @@
 package edu.duke.lh426;
 
-import edu.duke.lh426.model.User;
+
+import edu.duke.lh426.common.User;
+import edu.duke.lh426.common.UserService;
 import edu.duke.lh426.proxy.ServiceProxyFactory;
-import edu.duke.lh426.service.UserService;
+
 
 /**
  * 服务消费者示例
