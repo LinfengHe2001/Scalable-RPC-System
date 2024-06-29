@@ -1,0 +1,3 @@
+failBack=edu.duke.lh426.fault.tolerant.FailBackTolerantStrategy
+failFast=edu.duke.lh426.fault.tolerant.FailFastTolerantStrategy
+failSafe=edu.duke.lh426.fault.tolerant.FailSafeTolerantStrategy

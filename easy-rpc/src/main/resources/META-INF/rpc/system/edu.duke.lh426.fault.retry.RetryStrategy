@@ -1,0 +1,2 @@
+no=edu.duke.lh426.fault.retry.NoRetryStrategy
+fixedInterval=edu.duke.lh426.fault.retry.FixedIntervalRetryStrategy

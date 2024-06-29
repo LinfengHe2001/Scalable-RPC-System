@@ -1,0 +1,3 @@
+roundRobin=edu.duke.lh426.loadbalancer.RoundRobinLoadBalancer
+random=edu.duke.lh426.loadbalancer.RandomLoadBalancer
+consistentHash=edu.duke.lh426.loadbalancer.ConsistentHashLoadBalancer
