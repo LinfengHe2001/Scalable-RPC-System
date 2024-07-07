@@ -17,6 +17,9 @@ import java.time.Duration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -187,34 +190,61 @@ public class EtcdRegistry implements Registry {
 
     @Override
     public void heartBeat() {
-        // 10 秒续签一次
-        CronUtil.schedule("*/10 * * * * *", new Task() {
-            @Override
-            public void execute() {
-                // 遍历本节点所有的 key
-                for (String key : localRegisterNodeKeySet) {
-                    try {
-                        List<KeyValue> keyValues = kvClient.get(ByteSequence.from(key, StandardCharsets.UTF_8))
-                                .get()
-                                .getKvs();
-                        // 该节点已过期（需要重启节点才能重新注册）
-                        if (CollUtil.isEmpty(keyValues)) {
-                            continue;
-                        }
-                        // 节点未过期，重新注册（相当于续签）
-                        KeyValue keyValue = keyValues.get(0);
-                        String value = keyValue.getValue().toString(StandardCharsets.UTF_8);
-                        ServiceMetaInfo serviceMetaInfo = JSONUtil.toBean(value, ServiceMetaInfo.class);
-                        register(serviceMetaInfo);
-                    } catch (Exception e) {
-                        throw new RuntimeException(key + "续签失败", e);
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        // 每隔10秒发送一次心跳包
+        executor.scheduleAtFixedRate(() -> {
+            // 遍历本节点所有的 key
+            for (String key : localRegisterNodeKeySet) {
+                try {
+                    List<KeyValue> keyValues = kvClient.get(ByteSequence.from(key, StandardCharsets.UTF_8))
+                            .get()
+                            .getKvs();
+                    // 该节点已过期（需要重启节点才能重新注册）
+                    if (CollUtil.isEmpty(keyValues)) {
+                        continue;
                     }
+                    // 节点未过期，重新注册（相当于续签）
+                    KeyValue keyValue = keyValues.get(0);
+                    String value = keyValue.getValue().toString(StandardCharsets.UTF_8);
+                    ServiceMetaInfo serviceMetaInfo = JSONUtil.toBean(value, ServiceMetaInfo.class);
+                    register(serviceMetaInfo);
+                } catch (Exception e) {
+                    throw new RuntimeException(key + "续签失败", e);
                 }
             }
-        });
-
-        // 支持秒级别定时任务
-        CronUtil.setMatchSecond(true);
-        CronUtil.start();
+        }, 0, 10, TimeUnit.SECONDS);
     }
+
+//    @Override
+//    public void heartBeat() {
+//        // 10 秒续签一次
+//        CronUtil.schedule("*/10 * * * * *", new Task() {
+//            @Override
+//            public void execute() {
+//                // 遍历本节点所有的 key
+//                for (String key : localRegisterNodeKeySet) {
+//                    try {
+//                        List<KeyValue> keyValues = kvClient.get(ByteSequence.from(key, StandardCharsets.UTF_8))
+//                                .get()
+//                                .getKvs();
+//                        // 该节点已过期（需要重启节点才能重新注册）
+//                        if (CollUtil.isEmpty(keyValues)) {
+//                            continue;
+//                        }
+//                        // 节点未过期，重新注册（相当于续签）
+//                        KeyValue keyValue = keyValues.get(0);
+//                        String value = keyValue.getValue().toString(StandardCharsets.UTF_8);
+//                        ServiceMetaInfo serviceMetaInfo = JSONUtil.toBean(value, ServiceMetaInfo.class);
+//                        register(serviceMetaInfo);
+//                    } catch (Exception e) {
+//                        throw new RuntimeException(key + "续签失败", e);
+//                    }
+//                }
+//            }
+//        });
+//
+//        // 支持秒级别定时任务
+//        CronUtil.setMatchSecond(true);
+//        CronUtil.start();
+//    }
 }
