@@ -148,10 +148,13 @@ public class EtcdRegistry implements Registry {
                     switch (event.getEventType()) {
                         // key 删除时触发
                         case DELETE:
+//                            // 清理注册服务缓存
+//                            registryServiceCache.clearCache();
+//                            break;
+                        case PUT:
                             // 清理注册服务缓存
                             registryServiceCache.clearCache();
                             break;
-                        case PUT:
                         default:
                             break;
                     }
