@@ -34,7 +34,7 @@ public class EtcdRegistry implements Registry {
     /**
      * 本机注册的节点 key 集合（用于维护续期）
      */
-    private final Set<String> localRegisterNodeKeySet = new HashSet<>();
+    private final Set<String> localRegisterNodeKeySet = new ConcurrentHashSet<>();
 
     /**
      * 正在监听的 key 集合
@@ -51,15 +51,9 @@ public class EtcdRegistry implements Registry {
      * 根节点
      */
     private static final String ETCD_ROOT_PATH = "/rpc/";
-//etcd是一个开源的、分布式的键值存储，通常用于保存和管理关键数据，特别是分布式系统的配置信息和服务注册信息。
-//
-//client：这个变量是一个客户端对象，它封装了与etcd服务交互所需的所有功能。
-// 这个客户端对象是通过调用Client.builder()方法并设置一些参数（如服务地址和连接超时时间）来构建的。
-// 这个客户端对象提供了与etcd服务进行通信的基础功能，包括但不限于读写键值对、监听键值变化等。
 
-    //kvClient：这个变量是client对象的一个特定功能子集，专门用于操作etcd中的键值对。
-// getKVClient()方法返回的对象提供了对etcd键值存储进行操作的API，如获取、设置、删除键值对等。
-// 这个对象使得与etcd中的键值数据交互变得更加直接和方便。
+
+
     @Override
     public void init(RegistryConfig registryConfig) {
         client = Client.builder()
@@ -150,7 +144,7 @@ public class EtcdRegistry implements Registry {
                 for (WatchEvent event : response.getEvents()) {
                     switch (event.getEventType()) {
                         // key 删除时触发
-                        case DELETE:
+                        case DELETE: //暂时存在问题
 //                            // 清理注册服务缓存
 //                            registryServiceCache.clearCache();
 //                            break;

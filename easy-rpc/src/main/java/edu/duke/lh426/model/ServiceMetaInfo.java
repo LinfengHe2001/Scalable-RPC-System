@@ -31,7 +31,7 @@ public class ServiceMetaInfo {
     private Integer servicePort;
 
     /**
-     * 服务分组（暂未实现）
+     * 服务分组
      */
     private String serviceGroup = "default";
 
