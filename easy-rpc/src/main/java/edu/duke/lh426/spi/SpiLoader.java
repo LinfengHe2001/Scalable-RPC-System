@@ -80,6 +80,9 @@ public class SpiLoader {
         }
         // 获取到要加载的实现类型
         Class<?> implClass = keyClassMap.get(key);
+        if (implClass == null) {
+            throw new RuntimeException(String.format("实现类型不存在"));
+        }
         // 从实例缓存中加载指定类型的实例
         String implClassName = implClass.getName();
         if (!instanceCache.containsKey(implClassName)) {

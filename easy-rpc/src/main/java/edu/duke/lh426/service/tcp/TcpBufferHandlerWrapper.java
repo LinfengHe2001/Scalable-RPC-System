@@ -37,17 +37,18 @@ public class TcpBufferHandlerWrapper implements Handler<Buffer> {
 
         parser.setOutput(new Handler<Buffer>() {
             // 初始化
-            int size = -1;
+            int flag = -1;
             // 一次完整的读取（头 + 体）
             Buffer resultBuffer = Buffer.buffer();
 
+            //在每次接收到新的Buffer时被调用。
             @Override
             public void handle(Buffer buffer) {
                 // 1. 每次循环，首先读取消息头
-                if (-1 == size) {
+                if (-1 == flag) {
                     // 读取消息体长度
-                    size = buffer.getInt(13);
-                    parser.fixedSizeMode(size);
+                    flag = buffer.getInt(13);
+                    parser.fixedSizeMode(flag);
                     // 写入头信息到结果
                     resultBuffer.appendBuffer(buffer);
                 } else {
@@ -58,7 +59,7 @@ public class TcpBufferHandlerWrapper implements Handler<Buffer> {
                     bufferHandler.handle(resultBuffer);
                     // 重置一轮
                     parser.fixedSizeMode(ProtocolConstant.MESSAGE_HEADER_LENGTH);
-                    size = -1;
+                    flag = -1;
                     resultBuffer = Buffer.buffer();
                 }
             }
