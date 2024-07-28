@@ -95,7 +95,7 @@ public class EtcdRegistry implements Registry {
     @Override
     public List<ServiceMetaInfo> serviceDiscovery(String serviceKey) {
         // 优先从缓存获取服务
-        List<ServiceMetaInfo> cachedServiceMetaInfoList = registryServiceCache.readCache();
+        List<ServiceMetaInfo> cachedServiceMetaInfoList = registryServiceCache.readCache(serviceKey);
         if (cachedServiceMetaInfoList != null) {
             return cachedServiceMetaInfoList;
         }
@@ -122,7 +122,7 @@ public class EtcdRegistry implements Registry {
                     })
                     .collect(Collectors.toList());
             // 写入服务缓存
-            registryServiceCache.writeCache(serviceMetaInfoList);
+            registryServiceCache.writeCache(serviceKey, serviceMetaInfoList);
             return serviceMetaInfoList;
         } catch (Exception e) {
             throw new RuntimeException("获取服务列表失败", e);
@@ -132,7 +132,6 @@ public class EtcdRegistry implements Registry {
     /**
      * 监听（消费端）
      *
-     * @param serviceNodeKey
      */
     @Override
     public void watch(String serviceNodeKey) {
@@ -144,13 +143,13 @@ public class EtcdRegistry implements Registry {
                 for (WatchEvent event : response.getEvents()) {
                     switch (event.getEventType()) {
                         // key 删除时触发
-                        case DELETE: //暂时存在问题
-//                            // 清理注册服务缓存
-//                            registryServiceCache.clearCache();
-//                            break;
+                        case DELETE:
+//                           // 清理注册服务缓存
+                            registryServiceCache.clearCache(serviceNodeKey);
+                            break;
                         case PUT:
                             // 清理注册服务缓存
-                            registryServiceCache.clearCache();
+                            registryServiceCache.clearCache(serviceNodeKey);
                             break;
                         default:
                             break;
