@@ -7,4 +7,5 @@
 ![协议消息格式](https://github.com/LinfengHe2001/Scalable-RPC-System/assets/97234740/f3be492f-5839-4e50-a751-e5d34686b18a)
 ### SPI机制与全局配置
 <img width="551" alt="spi" src="https://github.com/user-attachments/assets/8b61fea7-bacb-4fd8-9e32-7beb2d3c5eea">
-
+### 序列化分析
+![序列化](https://github.com/user-attachments/assets/14da8615-36f7-4ca5-bbe4-a476d288ad04)
